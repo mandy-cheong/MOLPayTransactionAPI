@@ -82,7 +82,9 @@ namespace MOLPayTransactionAPI.Implement
 
         private List<MolPayMember> GetAPIRequests(DateTime date)
         {
-            var sql = "";
+            string sql = @"SELECT  MI02 AS MemberId, MI07 As MemberName, MI77 AS MerchantId, MI78 As VerifyKey, MI79 As SecretKey
+                            FROM    GoodMaji.dbo.MemberInfo ON MI02=MA05
+                            WHERE MI80=1 ";
             var cmd = new SqlCommand { CommandText = sql };
             var dt =SqlDbmanager.queryBySql(cmd);
             var transactionApiRequests = new List<MolPayMember>();
@@ -92,11 +94,11 @@ namespace MOLPayTransactionAPI.Implement
             foreach (DataRow dr in dt.Rows)
             {
                 var transactionRequest = new MolPayMember();
-                transactionRequest.MerchantId = dr[""].ToString();
-                transactionRequest.MemberId = dr[""].ToString();
-                transactionRequest.MemberName = dr[""].ToString();
-                transactionRequest.SecretKey = dr[""].ToString();
-                transactionRequest.VerifyKey = dr[""].ToString();
+                transactionRequest.MerchantId = dr["MerchantId"].ToString();
+                transactionRequest.MemberId = dr["MemberId"].ToString();
+                transactionRequest.MemberName = dr["MemberName"].ToString();
+                transactionRequest.SecretKey = dr["SecretKey"].ToString();
+                transactionRequest.VerifyKey = dr["VerifyKey"].ToString();
                 transactionApiRequests.Add(transactionRequest);
             }
 
